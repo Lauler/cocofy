@@ -5,29 +5,6 @@ import json
 import pandas as pd
 
 
-df = pd.read_parquet("design5.parquet")
-
-df["page_id"] = df["id"].str.extract("(.*#[0-9]-[0-9]{1,2})")
-df["filename"] = df["page_id"]
-
-df2 = df.drop_duplicates(["filename", "label_xgboost_adjusted"]).reset_index(drop=True)
-df2["labels_per_page_count"] = df2.groupby("filename")["filename"].transform("count")
-
-df3 = df2[
-    ~((df2.labels_per_page_count > 1) & (df2.label_xgboost_adjusted == "other"))
-].reset_index(drop=True)
-
-
-df[["id", "filename"]][85:145]
-
-df["filename"][0:38] = "dn_2021-04-20_partA_page1.jpg"
-df["filename"][38:87] = "dn_2021-04-20_partA_page2.jpg"
-df["filename"][87:143] = "dn_2021-04-20_partA_page3.jpg"
-df["filename"][143:181] = "dn_2021-04-20_partA_page4.jpg"
-df["filename"][181:193] = "dn_2021-04-20_partA_page5.jpg"
-df["filename"][193:234] = "dn_2021-04-20_partA_page6.jpg"
-
-
 def cocofy_from_list(filenames, categories, annotations, info=None):
     pass
 
@@ -132,16 +109,3 @@ def cocofy_from_df(
                 src=f"{image_folder}/{os.path.basename(filename)}",
                 dst=f"{destination_folder}/images",
             )
-
-
-df["iscrowd"] = 0
-df["ignore"] = 0
-
-df_test = df[0:234]
-df_test["image_width"] = 1000
-df_test["image_height"] = 1600
-df_test = df_test.rename(columns={"label_xgboost_adjusted": "label"})
-
-
-cocofy_from_df(df_test, categories=["nyheter_sverige", "ledare", "debatt"], image_folder="images")
-

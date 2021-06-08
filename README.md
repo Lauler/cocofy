@@ -2,7 +2,7 @@ Helper functions to convert bounding box data organized in dataframes or other f
 
 Assuming you have data in similar format to the files found [here](https://github.com/Lauler/newspaper_section_data), and assuming you have a column in your dataframe named `filename`, you can generate COCO annotations in the following way:
 
-```{python}
+```python
 df = pd.read_parquet("design5.parquet")
 
 df["iscrowd"] = 0

@@ -43,6 +43,8 @@ image folder to destination folder.
 
 -   **image_folder (str):** Source folder where your images are located. The filenames present in `df` will be copied over to a folder named "cocofy/images" in your current working directory. 
 
+-   **destination_folder (str):** Folder where your annotations and images will be stored. Default: "cocofy". I.e. annotations.json will be placed in folder "cocofy", and images will be under "cocofy/images". 
+
 -   **info (None | dict):** Optional dictionary with information about your dataset. E.g. {"year": 2021, "version": "1.0", "contributor": "John Smith"}. 
 
 -   **copy_images (bool):** If True, copies images from image_folder to {destination_folder}/images 
